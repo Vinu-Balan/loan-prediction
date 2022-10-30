@@ -120,7 +120,7 @@ def predict_approval(file_name):
             content_text = docx_to_text(file_name)
         except:
             print("unsupported file")
-    model_file_name = 'loan_model.sav'
+    model_file_name = 'Final_Loan_Model.sav'
     model = pickle.load(open(model_file_name, 'rb'))
 
     loan_amt = extract_loan_amt(content_text)
@@ -132,6 +132,7 @@ def predict_approval(file_name):
     loan_term = extract_loan_term(content_text)
     app_income = extract_app_income(content_text)
     coapp_income = extract_coapp_income(content_text)
+    credit_history = 1
     print(loan_amt)
     print(loan_term)
     print(gender)
@@ -141,7 +142,7 @@ def predict_approval(file_name):
     print(employment)
     print(app_income)
     print(coapp_income)
-    row_l = [int(dependents),int(app_income),float(coapp_income),float(loan_amt),float(loan_term),gender,marital_status,employment,graduation]
+    row_l = [gender,marital_status,dependents,graduation,employment,int(app_income),int(coapp_income),int(loan_amt),int(loan_term),credit_history]
     prediction = model.predict([row_l])
     classID = np.argmax(prediction)
     return d[classID]
